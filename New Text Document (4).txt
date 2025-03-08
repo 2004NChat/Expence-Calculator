@@ -1,0 +1,44 @@
+import React, { useState } from 'react';
+
+const ExpenseTracker = () => {
+  const [expenses, setExpenses] = useState([]);
+  const [amount, setAmount] = useState('');
+  const [description, setDescription] = useState('');
+
+  const addExpense = () => {
+    if (amount && description) {
+      const newExpense = { amount: parseFloat(amount), description, date: new Date().toISOString() };
+      setExpenses([...expenses, newExpense]);
+      setAmount('');
+      setDescription('');
+    }
+  };
+
+  return (
+    <div className="p-6 max-w-md mx-auto">
+      <div className="bg-white shadow-md rounded-lg p-4">
+        <h1 className="text-xl font-bold mb-4">Expense Tracker</h1>
+        <div className="mb-4">
+          <label>Amount:</label>
+          <input value={amount} onChange={(e) => setAmount(e.target.value)} type="number" className="border p-2 w-full" />
+        </div>
+        <div className="mb-4">
+          <label>Description:</label>
+          <input value={description} onChange={(e) => setDescription(e.target.value)} type="text" className="border p-2 w-full" />
+        </div>
+        <button onClick={addExpense} className="bg-blue-500 text-white p-2 w-full">Add Expense</button>
+      </div>
+
+      <div className="mt-6">
+        <h2 className="text-lg font-bold mb-2">Expenses</h2>
+        {expenses.map((expense, index) => (
+          <div key={index} className="p-2 border-b">
+            {expense.description} - ${expense.amount} on {new Date(expense.date).toLocaleDateString()}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ExpenseTracker;
